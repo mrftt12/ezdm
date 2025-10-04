@@ -84,6 +84,16 @@ const PlayerPage: React.FC<PlayerPageProps> = ({ track, album, onClose, onNext, 
       setVolume(newVolume);
   };
 
+  const handleDownload = () => {
+      if (!track.url) return;
+      const link = document.createElement('a');
+      link.href = track.url;
+      link.download = `${track.artist} - ${track.title}.mp3`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex flex-col p-6 animate-fade-in bg-background-dark/80 dark:bg-background-dark/90 backdrop-blur-xl">
       <audio ref={audioRef} loop={false} />
@@ -95,8 +105,12 @@ const PlayerPage: React.FC<PlayerPageProps> = ({ track, album, onClose, onNext, 
           <p className="text-sm text-zinc-600 dark:text-zinc-400">PLAYING FROM ALBUM</p>
           <p className="font-bold text-zinc-900 dark:text-white">{album?.title || 'Unknown Album'}</p>
         </div>
-        <button className="flex items-center justify-center rounded-full size-10 bg-primary/10 text-zinc-900 dark:text-white">
-          <MaterialIcon name="more_vert" />
+        <button
+          onClick={handleDownload}
+          disabled={!track.url}
+          className="flex items-center justify-center rounded-full size-10 bg-primary/10 text-zinc-900 dark:text-white hover:bg-primary/20 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <MaterialIcon name="download" />
         </button>
       </header>
 

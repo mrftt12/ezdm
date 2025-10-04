@@ -19,6 +19,24 @@ export async function importAlbumFromUrl(url: string): Promise<Album | null> {
                   $('div.elementor-widget-theme-post-featured-image img').attr('src') ||
                   '';
 
+    // Find the music URL from hearthis.at download or listen link
+    let musicUrl = '';
+    $('a[href*="hearthis.at"]').each((i, elem) => {
+      const href = $(elem).attr('href');
+      if (href && (href.includes('/listen.mp3') || href.includes('/download/'))) {
+        if (href.includes('/listen.mp3')) {
+          musicUrl = href;
+        } else if (href.includes('/download/') && !musicUrl) {
+          // Convert download URL to listen URL
+          const match = href.match(/hearthis\.at\/([^/]+)\/([^/]+)\//);
+          if (match) {
+            musicUrl = `https://hearthis.at/${match[1]}/${match[2]}/listen.mp3`;
+          }
+        }
+        return false; // Break the loop once we find a valid URL
+      }
+    });
+
     const tracks: Track[] = [];
 
     $('.elementor-widget-theme-post-content p, .elementor-widget-text-editor .elementor-widget-container').each((i, container) => {
@@ -53,6 +71,7 @@ export async function importAlbumFromUrl(url: string): Promise<Album | null> {
                         artist: artist,
                         duration: duration,
                         artwork: artwork,
+                        url: musicUrl,
                     });
                 }
             });

@@ -5,12 +5,15 @@ import SearchPage from './pages/SearchPage';
 import LibraryPage from './pages/LibraryPage';
 import ProfilePage from './pages/ProfilePage';
 import PlayerPage from './pages/PlayerPage';
+import SectionPage from './pages/SectionPage';
+import { trendingNow, madeForYou, newReleases } from './data';
 import type { Track, Album } from './types';
 
 export type Page = 'Home' | 'Search' | 'Library' | 'Profile';
 
 const App: React.FC = () => {
     const [activePage, setActivePage] = useState<Page>('Home');
+    const [currentSection, setCurrentSection] = useState<string | null>(null);
     const [currentTrack, setCurrentTrack] = useState<Track | null>(null);
     const [currentAlbum, setCurrentAlbum] = useState<Album | null>(null);
     const [currentTrackIndex, setCurrentTrackIndex] = useState<number | null>(null);
@@ -47,10 +50,43 @@ const App: React.FC = () => {
     }, [currentAlbum, currentTrackIndex]);
 
 
+    const handleNavigateToSection = useCallback((section: string) => {
+        setCurrentSection(section);
+    }, []);
+
+    const handleBackFromSection = useCallback(() => {
+        setCurrentSection(null);
+    }, []);
+
+    const getSectionData = (section: string): { title: string; albums: Album[] } => {
+        switch (section) {
+            case 'trending':
+                return { title: 'Trending now', albums: trendingNow };
+            case 'madeForYou':
+                return { title: 'Made for you', albums: madeForYou };
+            case 'newReleases':
+                return { title: 'New releases', albums: newReleases };
+            default:
+                return { title: '', albums: [] };
+        }
+    };
+
     const renderPage = () => {
+        if (currentSection) {
+            const { title, albums } = getSectionData(currentSection);
+            return (
+                <SectionPage
+                    title={title}
+                    albums={albums}
+                    onPlayTrack={handlePlayTrack}
+                    onBack={handleBackFromSection}
+                />
+            );
+        }
+
         switch (activePage) {
             case 'Home':
-                return <HomePage onPlayTrack={handlePlayTrack} />;
+                return <HomePage onPlayTrack={handlePlayTrack} onNavigateToSection={handleNavigateToSection} />;
             case 'Search':
                 return <SearchPage />;
             case 'Library':
@@ -58,7 +94,7 @@ const App: React.FC = () => {
             case 'Profile':
                 return <ProfilePage />;
             default:
-                return <HomePage onPlayTrack={handlePlayTrack} />;
+                return <HomePage onPlayTrack={handlePlayTrack} onNavigateToSection={handleNavigateToSection} />;
         }
     };
 

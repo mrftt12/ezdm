@@ -1,4 +1,5 @@
 import type { Track, Album, Playlist, BrowseCategory } from './types';
+import { importedAlbums } from './new-data.ts';
 
 export const tracks: Track[] = [
   { id: 't1', title: 'Electric Pulse', artist: 'DJ Nova', duration: '2:23', artwork: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC28wZqK7gKglrrzXrF3MpVT0gBlVhFWPfNamaSVZM8whQ-V6w9ZqsM1AxKjpvaxDFTQM9gRQu1Ocr8CE_AvNsFGmjXogDTdM6P6FGkTtX8uAqh0JaOD1gM82mLZtb35loYBPCkLAKJ6hUon3NmWNEDzkwA7pr2MhBQs6J4hJVtChIwystgJEZnaZ48GVhyzmW-o0VQ9GXH6-IcW_Pg-yqpMJkMGfMF6IQsV7JRvSME7GN4hi-1XDQt115uJVQ8eqo0Fris9K7wgCZv', url: 'https://storage.googleapis.com/vike-dev/demo.mp3' },
@@ -30,19 +31,32 @@ const deadmau5TomorrowlandAlbum: Album = {
 };
 
 export const trendingNow: Album[] = [
+  ...importedAlbums,
   deadmau5TomorrowlandAlbum,
   { id: 'a1', title: 'Electric Pulse', artwork: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBWnPzmNgRuMR6QVBtJzOe0B6mRLgBo-Aftd_CHrpgdLgIzOvrvwOy9pAFXrkUnSp4EAr5C0ttUTQKCN3wDawmwpabK7-mL1xRT-_HGtOqo7Ge8YoChU1ZwHg-7uKcf-SFbuvV1y6LF-aSNlOJgfEBWT3Rbw_PlgtvLMWmrgLpePSYCoGBs_ROpvuY19PwgktW0SqCfsTnkZeZJaBvsYna9UeJ7SsMEGxR412RqylMl8Vfni9cMBTUOk4aLjq0qL7BJ1Uv_ujBV-a2i', tracks: [tracks[0], tracks[1]] },
   { id: 'a2', title: 'Rhythmic Revolution', artwork: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCFNpzzQ93xemwesVA27AO5ayKwBA_DAvIHS0IKE6THQyXxJeudWE2hQw0EeFGif1DOda4vfOY9Exm2631-XmjIJipmTQ1KPw5eBcPggnZpD9xEIvDs6FUBaeAsH7sm4u9SwOeWy7k4x4Uko2Eau7Sg9u5yjdpsHso0HKQitqcaMxbFocg4aFDl5GHbEb1mn_r4gpsnuyRmS3CE6du1ewKzyi_CWcGMcDv_28ip7Jxpa053xrMWkXwdDLXrSz8eg8G0PYAbOaZrTNrD', tracks: [tracks[2]] },
   { id: 'a3', title: 'Sonic Boom', artwork: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBr6Dd63u_s9kuovdvn2s7UA4iyVjheD3z_gy4l_o69bK97anG_kVIXZ667VkAj9uCxCQeY-UCqCMOsvoC02BAfDv635w5ggamzVVhOiOKIAZIA1Z-SvQQZLTs2ps2HxX768zWScJbxsMc9Bq6hKLle3RmBlYYnRazSJCBAcbye7xpvK24QbrT20dr7WHcBCwT-BpsJ9Es5-a0fPASVR4irtRGGk6KL92UkAOiE_crpy-HN95eSDiJkPPQlXCrx86niMeiekxNa-gm7', tracks: [tracks[0]] },
 ];
 
+// Filter Kaskade albums for "Made for you"
+const kaskadeAlbums = importedAlbums.filter(album =>
+  album.artist?.toLowerCase().includes('kaskade')
+);
+
 export const madeForYou: Album[] = [
+    ...kaskadeAlbums,
     { id: 'mfy1', title: 'Electro Mix', artwork: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBkRToPhSxtY8enhDeJuCpnh_lX7Y9MRtAlQwNtxNw-kqjU2Oc-7XmvGwQTTv00BtSxWhavCORtHpj_FRM9BkzgXeNvhGGcAPv1p_-R75AIPxE6vxUjDfF3yQ9ugyEHv1mAVScsJP3lcx18Msk9Rt450jttOC5rFctjah-iFdxn0j-oG05oS9a51FLyOcoWS8-3odvGlQvm2tGDxPntrC2Kt0R6FClCPjbpp-SrSqxejI8xZK43-hzbXng75u6CgcxXUtDAu8urt571', tracks: [tracks[1]] },
     { id: 'mfy2', title: 'Techno Beats', artwork: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDTf0eBVknAEUmyiSVuSJ8WB0-EDC-QxiQxsJMnfL6gK7Mb2LiMDYG6eCoE5dfq0OfwqqPvsFyO7sO49wZeWsGFiuFoDbgu4Ft1kAjEP2WFkxn2qXAJ2ss5rve8p_EMbqB3xuvJPz_7GnBgVBuvior4V18Q0FNU_eaFvMBmlbu36S69YkUMhAj8KmwoEdTbN4k-A_hT460yi4CXs54vlUoScBKtHhrm337GROGxH6MGejjdzqkxZFKsa89zTpnT37WFZyUc-Q_YBjNa', tracks: [tracks[0]] },
     { id: 'mfy3', title: 'Trance Journey', artwork: 'https://lh3.googleusercontent.com/aida-public/AB6AXuADgZpQShh4dN4G1wbuVWwdU7t0eVgeXsUJ2CaC3KO79G32p-42S3azs_F_G5memolOA0GJCFOA0ge3r0fkqXhlBnsLPyW5sryVSSpleWokUI5Mo1PxQ2PuoboIyITSbIll5auGPmp2jFaq7yfH6oUhXkB3UlbPmkRZY8Akjyz1nXX9MTdzGIY9RjBbcQZFoOmKpuCMQLLQlND0PM_26C8PDO2EkuaomiJVhB9JzEYcjsbN15pDO--EKavqspXrbCmtdmTtdhwcTt3o', tracks: [tracks[2]] },
 ];
 
+// Filter 2025 albums for "New releases"
+const albums2025 = importedAlbums.filter(album =>
+  album.artwork?.includes('2025')
+);
+
 export const newReleases: Album[] = [
+    ...albums2025,
     { id: 'nr1', title: 'Neon Nights', artwork: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDJ0HsbdYmJ6y-Nk4kZpNk9Z63IEjvW6aHZ4OGM_kZ3YQLl4EjUpQRt5VC2rswoFSHDlnGKxe5Pdmw33eCbCYGmXpBDLjEEpF1zWn_4OGWb16xPd82FI6LHUVzo5WSelnJBdpR9nWHRlbo9JXxR65sfAsouvlunSPbz05-YbqOs7BMbO0chxGf20KTqZNP80ZdzQyP4qp8XXdzwz224FWqVKUblO-Wy4Drn8ylGvstio9Ng8Yhk34N567KxHO4VHZ5KvyUqhQH28dBC', tracks: [tracks[0]] },
     { id: 'nr2', title: 'Digital Dreamscape', artwork: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDhnyFlxfRaWglFpwO7hewqDqHywklgY1cW3j0hGfmqjO9VRQmID6o5u9Q5AEPzIF_rtOwVFeQ1ssZSTuw1mHGFZd8EvXA78jXoWtWaAzRYFhZzpwM9i3uJ4bdqHxBHnQ1kUEA8B0PY4TWWw46TXLZFmaph_DOBMp8d3koAMWui-X9P-3RIoSwSNg1xu41PqTSKIoGB2h1n3HXhm_xriksOwIIHmkDh2Et9XmzyqIgzcm1IvGwUrZk5tEH75SdVHOgZedWl-mIMnrBH', tracks: [tracks[1]] },
     { id: 'nr3', title: 'Bassline Bliss', artwork: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDGfrfgqNAc-s7RGKVefYYMcetULHq4mq1J8JmnqXZWSQkzzVR5LA52c4wdRwzI4UysSVjqjEJghKnBfWt0eB6Lswg-B_TuT955wl2PYrscVlXjBWMQGb5nGHOSW_XM58XhAjS_hOTjIuTQx35Lxgve-vhhte_zTqAOeylFvxUmF1ee96AM3M1TTaKWVzE2JBBFDU0Q9wLdGs3vqnVoAD7bUqH69AeqgQdu5clTmnUiinXQZJGpeaCufHyLIUBo6hz_b3_WRLPtcikD', tracks: [tracks[2]] },
